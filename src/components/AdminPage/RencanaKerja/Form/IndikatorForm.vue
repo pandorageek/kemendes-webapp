@@ -3,7 +3,7 @@
     <b-form>
       <h4>Indikator   <b-button variant="info" size="sm" v-on:click="add()">+</b-button></h4>
         <br>
-        <b-input-group prepend="Indikator" v-for="(indikator, idx) in indikators" class="mb-4">
+        <b-input-group :prepend="'Indikator'+ number(idx)" v-for="(indikator, idx) in indikators" class="mb-4">
           <b-form-input v-model="indikator.name" type="text">
           </b-form-input>
           <b-input-group-append>
@@ -29,6 +29,9 @@ export default {
     remove(index) {
       console.log(this.indikators);
       this.indikators.splice(index, 1);
+    },
+    number(idx) {
+      return idx+1
     },
   },
 };

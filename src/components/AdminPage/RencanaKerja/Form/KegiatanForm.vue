@@ -4,7 +4,7 @@
       <h4>Kegiatan</h4>
       <br>
       <b-form v-for="(indikator, idx) in indikators" class="mb-4">
-        <b-input-group prepend="Indikator">
+        <b-input-group :prepend="'Indikator - '+number(idx)">
           <b-form-input v-model="indikator.name" type="text" disabled>
           </b-form-input>
           <b-input-group-append>
@@ -12,7 +12,7 @@
           </b-input-group-append>
         </b-input-group>
         <b-container class="p-1">
-          <b-input-group prepend="Kegiatan"
+          <b-input-group :prepend="'Kegiatan - '+number(k_idx)"
                          v-for="(kegiatan, k_idx) in indikator.kegiatans"
                          class="p-2">
             <b-form-input v-model="kegiatan.name" type="text">
@@ -42,6 +42,9 @@ export default {
     remove(idx, k_idx) {
       this.indikators[idx].kegiatans.splice(k_idx, 1);
     },
+    number(idx) {
+      return idx+1
+    }
   },
 };
 </script>
