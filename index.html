@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/static/icons/favicon.ico" type="image/x-icon">
+    <title>kemendes1</title>
+    <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+      <!-- export excel -->
+      <style>
+        body {
+          background-color: grey;
+        }
+      
+        /* header*/
+        header {
+            background-color: #008080;
+            border-color: #006622;
+            padding: 15px;
+            color: white;
+        }
+        /* Add a gray background color and some padding to the footer */
+        footer {
+          background-color: #8cc68c;
+          border-color: #006622;
+          color: white;
+          padding: 25px;
+          margin-top: 25px;
+          font-family: 'Oswald', sans-serif;
+        }
+
+        .carousel-inner img {
+          width: 100%; /* Set width to 100% */
+          min-height: 200px;
+        }
+        /*set weight and height image for slide*/
+        img.slide-caro {
+            width: 800px;
+            max-height: 400px;
+        }
+
+        /* set heigh left news div */
+        div.well {
+            min-height: 400px;
+        }
+
+        /* set background for div link app*/
+        div.linkapp-container {
+            padding: 10px;
+        }
+
+        div.linkapp {
+            padding: 20px;
+            background-color: #008080;
+            color: white;
+            min-height: 300px;
+        }
+        div.linkapp, .light-color: {
+          background-color: #00cca3
+        }
+
+
+        /* Hide the carousel text when the screen is less than 600 pixels wide */
+        @media (max-width: 600px) {
+          .carousel-caption {
+            display: none; 
+          }
+        }
+      </style>
+  </head>
+  <body>
+    <div id="header"></div>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <div id="footer"></div>
+  </body>
+</html>
