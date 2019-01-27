@@ -122,6 +122,7 @@
 
 <script>
 import Menu from "@/components/WebPage/common/Menu";
+import router from '@/router';
 import { mapActions, mapState } from "vuex";
 import { Carousel3d, Slide } from 'vue-carousel-3d';
 

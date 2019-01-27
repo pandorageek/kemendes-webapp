@@ -22,7 +22,17 @@ import { faCoffee,
   faUser,
   faChalkboardTeacher,
   faAngleUp,
-  faAngleDown} from '@fortawesome/free-solid-svg-icons';
+  faAngleDown,
+  faInfoCircle,
+  faNewspaper,
+  faHandshake,
+  faVectorSquare,
+  faVideo,
+  faImages,
+  faEdit,
+  faSitemap,
+  faFile
+  } from '@fortawesome/free-solid-svg-icons';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -45,7 +55,16 @@ library.add(faCoffee,
   faLightbulb,
   faAngleDown,
   faAngleUp,
-  faConciergeBell);
+  faConciergeBell,
+  faInfoCircle,
+  faNewspaper,
+  faHandshake,
+  faVectorSquare,
+  faVideo,
+  faImages,
+  faEdit,
+  faSitemap,
+  faFile);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('v-select', vSelect);

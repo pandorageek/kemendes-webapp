@@ -1,120 +1,87 @@
 <template>
   <div id="admin-menu">
-    <b-container>
-      <div class="row desktop">
-          <nav class="navbar">
-            <ul class="ul-list-none">
-              <router-link to="/admin/rencana-kerja/list" class="nav-item">
-                <li class="nav-items">
-                  <p>Rencana Kerja</p>
-                </li>
-              </router-link>
-              <template v-if="user.role == 'admin' || user.role == 'superadmin'">
-                <router-link to="/admin/berita/list" class="nav-item">
-                  <li class="nav-items">
-                    <p>Berita</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin" class="nav-item">
-                  <li class="nav-items">
-                    <p>Struktur Organisasi</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/unit-kerja/list" class="nav-item">
-                  <li class="nav-items">
-                    <p>Unit Kerja</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/download/list" class="nav-item">
-                  <li class="nav-items">
-                    <p>Dokumen</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/video/list" class="nav-item">
-                  <li class="nav-items">
-                    <p>Vidio</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/galery/list" class="nav-item">
-                  <li class="nav-items">
-                    <p>Galeri</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/user/list" class="nav-item">
-                  <li class="nav-items">
-                    <p>User</p>
-                  </li>
-                </router-link>
-              </template>
-            </ul>
-          </nav>
+    <div class="container">
+      <div class="row">
+        <carousel-3d class="navbar" 
+                     display=7
+                     width=164 
+                     height=152 
+                     space=200 
+                     :controls-visible="true"
+                     @after-slide-change="onAfterSlideChange">        
+          <slide v-for="menu, i in menus" class="nav-bar-item" :index="i" :key="i" >
+            <router-link :to="menu.route" class="nav-item">
+                <font-awesome-icon :icon="menu.icon" size="4x" :class="`icon-${menu.color}`"></font-awesome-icon>
+                <p>{{ menu.title }}</p>
+            </router-link>
+          </slide>
+        </carousel-3d>  
       </div>
-      <div class="row mobile">
-        <b-card no-body class="mb-1 full">
-          <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-btn class="bg-tosca" block href="#" v-b-toggle.accordion1>Menu</b-btn>
-          </b-card-header>
-          <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
-            <b-card-body>
-              <ul class="list-none">
-                <router-link to="/admin/rencana-kerja/list">
-                  <li>
-                    <p>Rencana Kerja</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/berita/list">
-                  <li>
-                    <p>Berita</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin">
-                  <li>
-                    <p>Struktur Organisasi</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/unit-kerja/list">
-                  <li>
-                    <p>Unit Kerja</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/download/list">
-                  <li>
-                    <p>Dokumen</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/video/list">
-                  <li>
-                    <p>Vidio</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/galery/list">
-                  <li>
-                    <p>Galeri</p>
-                  </li>
-                </router-link>
-                <router-link to="/admin/user/list">
-                  <li>
-                    <p>User</p>
-                  </li>
-                </router-link>
-              </ul>
-            </b-card-body>
-          </b-collapse>
-        </b-card>
-      </div>
-    </b-container>
+    </div>
   </div>
 </template>
 <script>
 import { base_url } from '@/store/config';
+import { Carousel3d, Slide } from 'vue-carousel-3d';
+import router from '@/router';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'AdminMenu',
+  components: { Carousel3d, Slide },
   data() {
     return {
       active: '',
-      menus: ['Rencana Kerja', 'Berita', 'Unit Kerja'],
+      menus: [
+          {
+            title: "Rencana Kerja",
+            icon: "edit",
+            route: "/admin/rencana-kerja/list",
+            color: "green"
+          },
+          {
+            title: "Berita",
+            icon: "newspaper",
+            route: "/admin/berita/list",
+            color: "green"
+          },
+          {
+            title: "Struktur Organisasi",
+            icon: "sitemap",
+            route: "/admin",
+            color: "green"
+          },
+          {
+            title: "Unit Kerja",
+            icon: "vector-square",
+            route: "/admin/unit-kerja/list",
+            color: "green"
+          },
+          {
+            title: "Dokumen",
+            icon: "file",
+            route: "/admin/download/list",
+            color: "green"
+          },
+          {
+            title: "Vidio",
+            icon: "video",
+            route: "/admin/video/list",
+            color: "green"
+          },
+          {
+            title: "Galeri",
+            icon: "images",
+            route: "/admin/galery/list",
+            color: "green"
+          },
+          {
+            title: "User",
+            icon: "user",
+            route: "/admin/user/list",
+            color: "green"
+          }
+        ]
     };
   },
   created() {
@@ -123,6 +90,9 @@ export default {
     navActive(menu) {
       this.active = menu;
     },
+    onAfterSlideChange(idx){
+      router.push(this.menus[idx].route)
+    }
   },
   computed: {
     ...mapGetters({
@@ -136,6 +106,26 @@ a {
   color: inherit;
 }
 
+a:hover {
+  color: #0b5445;
+  text-decoration: none;
+}
+
+.prev, .next {
+  background-color: #9e2a3b;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.prev > span, .next > span {
+  color:#ffffff;
+  text-align: center;
+  font-size: 40px;
+}
+
+
 .bg-tosca {
   background-color: #0b5445;
 }
@@ -148,78 +138,47 @@ a {
   color: #008080;
 }
 
-#menu {
+.icon-red {
+  color: #9e2a3b;
+  align-self: center
+}
+
+.icon-green {
+  color: #0b5445;
+  align-self: center;
+}
+
+#admin-menu {
   -webkit-box-shadow: 0 8px 6px -6px grey;
        -moz-box-shadow: 0 8px 6px -6px grey;
             box-shadow: 0 8px 6px -6px grey;
 }
 
+.nav-bar-item{
+  border-radius: 10%;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.nav-bar-item:hover {
+  box-shadow: 0 10px 20px rgba(33,33,33,.2); 
+}
+
 .navbar {
-  padding: 0 0;
+  padding: 100px 0;
 }
 
-.full {
-  width: 100%;
+.nav-bar-item{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding-top: 15%;
 }
 
-.list-none {
-    list-style-type: none;
-}
-
-.ul-list-none {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    width: 80%;
-    justify-content: space-between;
-    list-style-type: none;
-}
-
-.nav-items {
-    display: inline-block;
-    color: #000;
-    text-decoration: none;
-}
-
-.nav-items::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: rgb(207, 5, 5);
-    transition: width .3s;
-}
-
-.nav-items:hover::after {
-    width: 100%;
-}
-
-
-
-@media only screen and (min-width: 576px) {
-  .navbar {
-    width: 80%;
-  }
-  .nav-item > * {
-    margin-top: 1rem;
-    margin-bottom: 0rem;
-  }
-  .mobile {
-    display: none;
-  }
-}
-@media only screen and (max-width: 576px) {
-  .navbar-nav {
-    display: flex;
-  }
-  .nav-item > * {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .desktop {
-    display: none;
-  }
-
+.nav-item > p {
+  padding-top: 20%;
 }
 </style>
 
