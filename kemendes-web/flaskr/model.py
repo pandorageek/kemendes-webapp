@@ -100,6 +100,7 @@ class ResikoKegiatan(Document, TimeStampModel):
     komunikasi = StringField(max_length=500000, required=True)
     pemantauan = StringField(max_length=500000, required=True)
     evaluasi = StringField(max_length=500000, required=True)
+    evidence = StringField(default='')
 
 
 class Video(Document, TimeStampModel):

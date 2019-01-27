@@ -237,10 +237,11 @@ class RiskFormView(object):
             return e.__str__(), StatusCodes.HTTP_500_INTERNAL_SERVER_ERROR
         return result
 
-    def post(self, data):
-        data = json.loads(data)
+    def post(self, data, files):
+        # data = json.loads(data)
         try:
-            tujuan_id = update_rencana_kerja(data)
+            print('controller tujuan', data)
+            tujuan_id = update_rencana_kerja(data.get('tujuan'), files)
         except Exception as e:
             print('error', e)
             return {'status': 'failed'}, StatusCodes.HTTP_400_BAD_REQUEST

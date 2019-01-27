@@ -212,9 +212,13 @@ def create_app(test_config=None):
             return json.dumps(rencana_kerja.get(tujuan_id))
 
         if request.method == 'POST':
-            data = request.data.decode('utf8').replace("'", '"')
+            # data = request.data.decode('utf8').replace("'", '"')
             # print(request.json['name'])
-            result = rencana_kerja.post(data)
+            data = request.form
+            files = request.files
+            print('rkdata', request.form)
+            print('rkimage', request.files)
+            result = rencana_kerja.post(data, files)
             print(result)
             return result
 

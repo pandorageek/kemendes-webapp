@@ -41,6 +41,8 @@ def delete_file(filepath):
         os.remove(full_path)
 
 def upload_evidence(file):
+    if not file:
+        return
     filename = secure_filename(file.filename)
     file_url = os.path.join(app.config['UPLOAD_FOLDER'], 'evidence', filename)
     served_url = os.path.join(app.config['STATIC_FOLDER'], 'evidence', filename)

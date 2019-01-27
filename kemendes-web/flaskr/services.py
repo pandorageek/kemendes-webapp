@@ -86,12 +86,24 @@ def get_rencana_kerja(id):
 
     return data
 
-def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj, tujuan):
+def update_rtp_evidence(tujuan, files):
+    resiko_kegiatans = ResikoKegiatan.objects.filter(tujuan=tujuan)
+    for idx, resiko_kegiatan in enumerate(resiko_kegiatans):
+        evidence_file = files.get('file{}'.format(idx))
+        print('update evidence', idx, files.get('file{}'.format(idx)))
+        if evidence_file is not None:
+            if resiko_kegiatan.evidence:
+                delete_evidence(resiko_kegiatan.evidence)
+        evidence_url = upload_evidence(evidence_file)
+        resiko_kegiatan.update(evidence=evidence_url)
+
+def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj,
+                            tujuan, idk, kgx, files):
     # update resiko kegiatan 
     old_rks = ResikoKegiatan.objects.filter(kegiatan=kegiatan_obj)
     old_rk_ids = [rk.id.__str__() for rk in old_rks]
     new_rk_ids = []
-    for resiko in resiko_kegiatans:
+    for idx, resiko in enumerate(resiko_kegiatans):
         if resiko.get('id') != '' and resiko.get('id') is not None:
             resiko_obj = ResikoKegiatan.objects.get(id=resiko['id'])
             resiko_obj.update(sumber_resiko=resiko['sumber_resiko'],
@@ -140,6 +152,16 @@ def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj, tujua
                                         evaluasi=resiko.get('evaluasi'))
             resiko_obj.save()
 
+        # update evidence
+        evidence_url = None
+        file_identifier = 'file{}{}{}'.format(idk, kgx, idx)
+        evidence_file = files.get(file_identifier)
+        if evidence_file is not None:
+            if resiko_obj.evidence != '' and resiko.evidence is not None:
+                delete_evidence(resiko_kegiatan.evidence)
+            evidence_url = upload_evidence(evidence_file)
+            resiko_obj.update(evidence=evidence_url)
+
         new_rk_ids.append(resiko_obj.id.__str__())
 
     # delete resiko kegiatans
@@ -148,12 +170,12 @@ def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj, tujua
     deleted_resiko_kegiatans.delete()
 
 
-def update_kegiatans(kegiatans, indikator_obj, tujuan):
+def update_kegiatans(kegiatans, indikator_obj, tujuan, idk, files):
     # update kegiatans
     old_kegiatans = Kegiatan.objects.filter(indikator=indikator_obj)
     old_kg_ids = [kg.id.__str__() for kg in old_kegiatans]
     new_kg_ids = []
-    for kegiatan in kegiatans:
+    for kgx, kegiatan in enumerate(kegiatans):
         if kegiatan.get('id') != '' and kegiatan.get('id') is not None:
             kegiatan_obj = Kegiatan.objects.get(id=kegiatan.get('id'))
             if kegiatan_obj.name != kegiatan.get('name'):
@@ -166,14 +188,17 @@ def update_kegiatans(kegiatans, indikator_obj, tujuan):
 
         new_kg_ids.append(kegiatan_obj.id.__str__())
         resiko_kegiatan = kegiatan.get('resiko_kegiatan')
-        update_resiko_kegiatans(resiko_kegiatan, kegiatan_obj, indikator_obj, tujuan)
+        update_resiko_kegiatans(resiko_kegiatan, kegiatan_obj,
+            indikator_obj, tujuan, idk, kgx, files)
 
     # delete kegiatans
     deleted_kg_ids = set(old_kg_ids) - set(new_kg_ids)
     deleted_kegiatans = Kegiatan.objects.filter(id__in=deleted_kg_ids)
     deleted_kegiatans.delete()
 
-def update_rencana_kerja(data):
+def update_rencana_kerja(data, files):
+    data = json.loads(data)
+    print('urk files', files)
     if data.get('id') != '' and data.get('id') is not None:
         tujuan = Tujuan.objects.get(id=data.get('id'))
         tujuan.update(name=data.get('name'),
@@ -195,7 +220,7 @@ def update_rencana_kerja(data):
     old_idk_ids = [idk.id.__str__() for idk in old_indikators]
     new_idk_ids = []
     print('update_indikator')
-    for indikator in indikators:
+    for idk, indikator in enumerate(indikators):
         if indikator.get('id') != '' and indikator.get('id') is not None:
             indikator_obj = Indikator.objects.get(id=indikator.get('id'))
             indikator_obj.update(name=indikator.get('name'))
@@ -207,12 +232,14 @@ def update_rencana_kerja(data):
         # update kegiatans
         kegiatans = indikator.get('kegiatans')
         print('update_kegiatan')
-        update_kegiatans(kegiatans, indikator_obj, tujuan)
+        update_kegiatans(kegiatans, indikator_obj, tujuan, idk, files)
         
     # delete indikators
     deleted_idk_ids = set(old_idk_ids) - set(new_idk_ids)
     deleted_indikators = Indikator.objects.filter(id__in=list(deleted_idk_ids))
     deleted_indikators.delete()
+    print('update_evidence')
+    # update_rtp_evidence(tujuan, files)
     return tujuan.id.__str__()
 
 def delete_rencana_kerja(tujuan_id):
