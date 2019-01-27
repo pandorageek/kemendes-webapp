@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       step: 0,
-      tujuan: { id: '', indikators: [{ kegiatans: [], name: '' }] },
+      tujuan: { id: '', indikators: [{ kegiatans: [], name: '' }], evidence_list: [] },
     };
   },
   created() {

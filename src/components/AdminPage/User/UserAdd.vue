@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     onSave() {
-      if (!this.user.role) {
+      if (!this.role) {
         swal({
           title: 'Warning',
           text: 'please select user role!!',

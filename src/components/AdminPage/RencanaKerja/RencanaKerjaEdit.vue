@@ -17,6 +17,7 @@
                                  :indikators="tujuan.indikators"
                                  :tujuanName="tujuan.name"/>
                   <ResikoForm v-if="step == 3"
+                                 :tujuan="tujuan"
                                  :indikators="tujuan.indikators"
                                  :tujuanName="tujuan.name"/>
                   <div class="panel-footer">
@@ -184,6 +185,17 @@ export default {
       console.log('validation save', validation_step3)
       if (validation_step3.is_valid){
         console.log(JSON.stringify(this.tujuan));
+        let formData = new FormData()
+        formData.append('tujuan', JSON.stringify(this.tujuan))
+        this.tujuan.evidence_list.map(function(item, idx) {
+          item.map(function(kg, kgx) {
+            kg.map(function(rkitem, rkx) {
+              alert(`file${idx}${kgx}${rkx}`, rkitem)
+              formData.append(`file${idx}${kgx}${rkx}`, rkitem.file, rkitem.name)
+            })
+          })
+          
+        })
         const header = new Headers({
           Accept: 'application/json',
           'Access-Control-Allow-Origin': '*',
@@ -192,7 +204,7 @@ export default {
         const opt = {
           method: 'POST',
           headers: header,
-          body: JSON.stringify(this.tujuan),
+          body: formData,
         };
         fetch(`${base_url}/rencana-kerja`, opt)
           .then((response) => {

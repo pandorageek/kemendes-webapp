@@ -1,10 +1,17 @@
-import { getListUser, getUser, postUser, getListRole } from '@/api/user';
+import { getListUser,
+         getUser,
+         postUser,
+         getListRole,
+         getListStrukturJabatan } from '@/api/user';
 import router from '@/router';
 
 const state = {
   listUser: [],
   userData: {},
   listRole: [],
+  strukturJabatan: {},
+  optJabatan: [],
+  optDirektorat: [],
 };
 
 const mutations = {
@@ -18,11 +25,14 @@ const mutations = {
     state.userData = res;
   },
   listRole: (state, res) => {
-    const optRole = [];
+    let optRole = [];
     for (const role of res) {
       optRole.push({ value: role._id.$oid, text: role.name });
     }
     state.listRole = optRole;
+  },
+  strukturJabatan: (state, res) => {
+    state.strukturJabatan = res;
   },
 };
 
@@ -44,6 +54,13 @@ const actions = {
     context.commit('user', res);
     router.push('/admin/user/list');
   },
+  async fetchListStrukturJabatan(context) {
+    const res = await getListStrukturJabatan();
+    context.commit('strukturJabatan', res);
+  },
+  getDirektoratOptbyJabatan(context, jabatan) {
+    context.commit('listDirektoratbyJabatan', jabatan)
+  }
 };
 
 const getters = {
@@ -56,6 +73,16 @@ const getters = {
   listRole(state) {
     return state.listRole;
   },
+  strukturJabatan(state) {
+    return state.strukturJabatan;
+  },
+  optJabatan(state) {
+    return state.strukturJabatan.jabatan
+  },
+  optDirektorat(state) {
+    let options = []
+    return state.strukturJabatan.direktorats
+  }
 };
 
 export default { state, mutations, actions, getters };

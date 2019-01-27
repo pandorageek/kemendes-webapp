@@ -23,6 +23,7 @@
 <script>
 import { base_url } from '@/store/config';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'AdminMenu',
@@ -91,6 +92,11 @@ export default {
     onAfterSlideChange(idx){
       router.push(this.menus[idx].route)
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user',
+    }),
   },
 };
 </script>

@@ -178,6 +178,30 @@
                 <b-form-input v-model="resiko.pemantauan" type="text">
                 </b-form-input>
               </b-form-group>
+              <b-form-group label="Evaluasi"
+                            horizontal
+                            :label-cols="3"
+                            :label-row="3"
+                            class="p-1">
+                <b-form-textarea id="textarea1"
+                                 v-model="resiko.evaluasi"
+                                 :rows="3"
+                                 :max-rows="6">
+                </b-form-textarea>
+              </b-form-group>
+              <b-form-group label="evidence"
+                              :label-cols="3"
+                              size="lg"
+                              horizontal>
+                <b-form-file 
+                             v-on:change="onFileChanged"
+                             :id="idx+'-'+kgidx+'-'+r_idx"
+                             placeholder="Choose a file...">
+                </b-form-file>
+                <div class="mt-3">
+                  Selected File: {{ resiko.evidence }}
+                </div>
+              </b-form-group>
             </b-form>
           </b-card>
         </b-form>
@@ -187,7 +211,7 @@
 </template>
 <script>
 export default {
-  props: ['indikators', 'tujuanName'],
+  props: ['tujuan', 'indikators', 'tujuanName'],
   name: 'ResikoForm',
   data() {
     return {
@@ -220,17 +244,21 @@ export default {
         {'value': 4, 'text': 'Besar'},
         {'value': 5, 'text': 'Sangat Besar/Katastropik'}
       ],
-      status_resiko_map: []
+      evidence_list: [],
     };
   },
   created(){
     let indikators = this.indikators
     var self = this
-    indikators.map(function(indikator) {
+    self.tujuan['evidence_list'] = []
+    indikators.map(function(indikator, idk) {
+      self.tujuan.evidence_list.push([])
       let kegiatans = indikator.kegiatans
-      kegiatans.map(function(kegiatan) {
+      kegiatans.map(function(kegiatan, kgidx) {
+        self.tujuan.evidence_list[idk].push([])
         let resiko_kegiatan = kegiatan.resiko_kegiatan
-        resiko_kegiatan.map(function(rk) {
+        resiko_kegiatan.map(function(rk, rkidx) {
+          self.tujuan.evidence_list[idk][kgidx].push({file: null})
           if (rk.pengukuran_kemungkinan !== '' && rk.pengukuran_kemungkinan !== undefined) {
             for (let key in self.pengukuran_kemungkinan_map) {
               if (self.pengukuran_kemungkinan_map[key] === rk.pengukuran_kemungkinan) {
@@ -275,11 +303,14 @@ export default {
         target_waktu: '',
         komunikasi: '',
         pemantauan: '',
+        evaluasi: '',
       };
       this.indikators[idx].kegiatans[kgidx].resiko_kegiatan.push(data_resiko);
+      this.tujuan.evidence_list[idx][kgidx].push({file: null})
     },
     remove(idx, kgidx, r_idx) {
       this.indikators[idx].kegiatans[kgidx].resiko_kegiatan.splice(r_idx, 1);
+      this.tujuan.evidence_list.splice(r_idx, 1)
     },
     calculateST(resiko) {
       if (resiko.pengukuran_kemungkinan_key == '' && resiko.pengukuran_dampak_key == '') {
@@ -293,6 +324,18 @@ export default {
     },
     number(idx) {
       return idx + 1
+    },
+    onFileChanged(event){
+      console.log('ev', event.target.files, event.target.id)
+      let atr_id = event.target.id
+      let idx_map = atr_id.split('-')
+      const idk = Number(idx_map[0])
+      const kg = Number(idx_map[1])
+      const rk = Number(idx_map[2])
+      const file = event.target.files[0]
+      alert(idx_map)
+      this.tujuan.evidence_list[idk][kg][rk]['file'] = file
+      this.tujuan.evidence_list[idk][kg][rk]['name'] = file.name
     }
   },
 };
