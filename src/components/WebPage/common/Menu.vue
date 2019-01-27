@@ -9,7 +9,6 @@
                      height=152
                      space=200
                      :controls-visible="true"
-                     :clickable="false"
                      @after-slide-change="onAfterSlideChange">        
           <slide v-for="menu, i in menus" class="nav-bar-item" :index="i" :key="i" >
             <router-link :to="menu.route" class="nav-item">
@@ -173,78 +172,5 @@ a:hover {
 .nav-item > p {
   padding-top: 20%;
 }
-/* .navbar {
-  padding: 0 0;
-}
-
-.full {
-  width: 100%;
-}
-
-.list-none {
-    list-style-type: none;
-}
-
-.ul-list-none {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    width: 60%;
-    justify-content: space-between;
-    list-style-type: none;
-}
-
-.nav-items {
-    display: inline-block;
-    color: #000;
-    text-decoration: none;
-}
-
-.nav-items::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: rgb(207, 5, 5);
-    transition: width .3s;
-}
-
-.nav-items:hover::after {
-    width: 100%;
-} */
-
-
-
-/* @media only screen and (min-width: 576px) {
-  .navbar {
-    width: 80%;
-  }
-  .nav-item > * {
-    margin-top: 1rem;
-    margin-bottom: 0rem;
-  }
-  .desktop {
-    display: block;
-  }
-  .mobile {
-    display: none;
-  }
-}
-@media only screen and (max-width: 576px) {
-  .navbar-nav {
-    display: flex;
-  }
-  .nav-item > * {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .mobile {
-    display: block;
-  }
-  .desktop {
-    display: none;
-  }
-
-} */
 </style>
 

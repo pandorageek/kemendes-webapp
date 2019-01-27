@@ -2,12 +2,14 @@
   <div id="admin-menu">
     <div class="container">
       <div class="row">
-        <carousel-3d class="navbar" controlsPrevHtml="<span>‹</span>" 
-                     controlsNextHtml="<span>›</span>" display=7
-                     width=164 height=152 space=200 :controls-visible="true">        
+        <carousel-3d class="navbar" 
+                     display=7
+                     width=164 
+                     height=152 
+                     space=200 
+                     :controls-visible="true"
+                     @after-slide-change="onAfterSlideChange">        
           <slide v-for="menu, i in menus" class="nav-bar-item" :index="i" :key="i" >
-            <!-- {{ i != currentIdx ? changePage(i) : true }} -->
-            <!-- <input type="hidden" :value="i" v-on:change="changePage(i)"> -->
             <router-link :to="menu.route" class="nav-item">
                 <font-awesome-icon :icon="menu.icon" size="4x" :class="`icon-${menu.color}`"></font-awesome-icon>
                 <p>{{ menu.title }}</p>
@@ -86,6 +88,10 @@ export default {
     navActive(menu) {
       this.active = menu;
     },
+    onAfterSlideChange(idx){
+      console.log('afterslide', idx)
+      router.push(this.menus[idx].route)
+    }
   },
 };
 </script>

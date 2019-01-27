@@ -6,7 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 /test/unit/coverage/
 */__pycache__/
-
+__pycache__
+.pyc
 # Editor directories and files
 .idea
 .vscode
