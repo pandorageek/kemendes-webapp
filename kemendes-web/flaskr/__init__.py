@@ -9,6 +9,7 @@ from flask_jwt_extended import JWTManager, jwt_required
 from flask_cors import CORS
 from mongoengine import connect
 from .controller import *
+from .struktur_jabatan import get_struktur_jabatan_list
 
 
 def create_app(test_config=None):
@@ -102,6 +103,15 @@ def create_app(test_config=None):
         try:
             role = RoleListView(app)
             return role.post(request.form)
+        except Exception as e:
+            return e.__str__(), 500
+
+    @app.route('/list-strukturjabatan', methods=['GET'])
+    # @jwt_required
+    def struktur_jabatan():
+        try:
+            result = get_struktur_jabatan_list()
+            return json.dumps(result)
         except Exception as e:
             return e.__str__(), 500
 

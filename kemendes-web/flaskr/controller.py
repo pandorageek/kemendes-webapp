@@ -25,6 +25,7 @@ class UserView(object):
         password = user_data.get('password')
         email = user_data['email']
         role_id = user_data['role']
+        direktorat = user_data['direktorat']
         if not username or not password or not email:
             return 'all field must be filled', StatusCodes.HTTP_400_BAD_REQUEST
 
@@ -33,7 +34,11 @@ class UserView(object):
 
         if user_data.get('id'):
             user = User.objects.get(id=user_data.get('id'))
-            user.update(username=username, password=password, email=email, role=role)
+            user.update(username=username,
+                        password=password,
+                        email=email,
+                        role=role,
+                        direktorat=direktorat)
         else:
             try:
                 existed_username = User.objects.get(username=username)
@@ -90,6 +95,7 @@ class LoginView(object):
         
         try:
             db_user = User.objects.get(username=username)
+            role = Role.objects.get(id=db_user.role.id)
         except DoesNotExist:
             return 'username not found', StatusCodes.HTTP_404_NOT_FOUND
         
@@ -99,6 +105,8 @@ class LoginView(object):
         result = {}
         result['username'] = db_user.username
         result['access_token'] = create_token(username)
+        result['role'] = role.name
+        result['direktorat'] = db_user.direktorat
         return jsonify(result)
 
     def get(self):
@@ -247,17 +255,55 @@ class RiskFormView(object):
         return 'success delete rencana kerja', StatusCodes.HTTP_204_NO_CONTENT
 
 
-class RencanaKerjaListView(object):
+class TujuanView(object):
     def __init__(self, app):
         self.app = app
         self.identity = authenticate_user()
 
+    def post(self, data):
+        data = json.loads(data)
+
+
+class IndikatorView(object):
+    def __init__(self, app):
+        self.app = app
+        self.identity = authenticate_user()
+
+    def post(self, data):
+        data = json.loads(data)
+
+
+class KegiatanView(object):
+    def __init__(self, app):
+        self.app = app
+        self.identity = authenticate_user()
+
+    def post(self, data):
+        data = json.loads(data)
+
+
+class ResikoKegiatan(object):
+    def __init__(self, app):
+        self.app = app
+        self.identity = authenticate_user()
+
+    def post(self, data):
+        data = json.loads(data)
+
+
+class RencanaKerjaListView(object):
+    def __init__(self, app):
+        self.app = app
+        self.identity = authenticate_user()
+        self.user = User.objects.get(username=self.identity)
+
     def get(self):
         try:
-            result = get_list_rencana_kerja()
+            result = get_list_rencana_kerja(self.user)
         except Exception as e:
             return e.__str__(), StatusCodes.HTTP_500_INTERNAL_SERVER_ERROR
         return result
+
 
 class RoleListView(object):
     def __init__(self, app):

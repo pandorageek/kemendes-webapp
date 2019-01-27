@@ -40,5 +40,18 @@ def delete_file(filepath):
     if os.path.isfile(full_path):
         os.remove(full_path)
 
+def upload_evidence(file):
+    filename = secure_filename(file.filename)
+    file_url = os.path.join(app.config['UPLOAD_FOLDER'], 'evidence', filename)
+    served_url = os.path.join(app.config['STATIC_FOLDER'], 'evidence', filename)
+    file.save(file_url)
+    return served_url
+
+def delete_evidence(filepath):
+    head, tail = os.path.split(filepath)
+    full_path = os.path.join(app.config['UPLOAD_FOLDER'], 'evidence', tail)
+    if os.path.isfile(full_path):
+        os.remove(full_path)
+
 
     

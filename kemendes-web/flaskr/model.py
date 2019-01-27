@@ -1,9 +1,14 @@
 from mongoengine import *
 import datetime
 
+from .struktur_jabatan import DIREKTORAT_LIST
+
+
+
 class TimeStampModel(object):
     created_at = DateTimeField(default=datetime.datetime.utcnow)
     updated_at = DateTimeField(default=datetime.datetime.utcnow)
+
 
 class Role(Document, TimeStampModel):
     name = StringField(max_length=250, required=True, unique=True)
@@ -14,6 +19,7 @@ class User(Document, TimeStampModel):
     email = EmailField(required=True, unique=True)
     password = StringField(max_length=100, required=True)
     role = ReferenceField(Role)
+    direktorat = StringField(max_length=250, choices=DIREKTORAT_LIST)
 
     search_field = ("email", 'username',)
 
@@ -40,13 +46,16 @@ class Berita(Document, TimeStampModel):
         # the document, but this illustrates the use of manager methods
         return queryset.order_by('created_at')
 
+
 class UnitKerja(Document, TimeStampModel):
     name = StringField(max_length=500, required=True)
+    no_urut = IntField()
     bagan = StringField(max_length=2000)
     profil = StringField(max_length=50000)
     created_by = ReferenceField(User)
 
     search_field = ('name', )
+
 
 class Tujuan(Document, TimeStampModel):
     name = StringField(max_length=500000, required=True)
@@ -60,10 +69,12 @@ class Indikator(Document, TimeStampModel):
     name = StringField(max_length=500, required=True)
     tujuan = ReferenceField(Tujuan)
 
+
 class Kegiatan(Document, TimeStampModel):
     name = StringField(max_length=50000, required=True)
     tujuan = ReferenceField(Tujuan)
     indikator = ReferenceField(Indikator)
+
 
 class ResikoKegiatan(Document, TimeStampModel):
     tujuan = ReferenceField(Tujuan)
@@ -88,6 +99,7 @@ class ResikoKegiatan(Document, TimeStampModel):
     target_waktu = StringField(max_length=500000, required=True)
     komunikasi = StringField(max_length=500000, required=True)
     pemantauan = StringField(max_length=500000, required=True)
+    evaluasi = StringField(max_length=500000, required=True)
 
 
 class Video(Document, TimeStampModel):
@@ -124,6 +136,7 @@ class Image(Document, TimeStampModel):
         }]
     }
 
+
 class Download(Document, TimeStampModel):
     name = StringField(max_length=250)
     description = StringField(max_length=250)
@@ -140,5 +153,9 @@ class Download(Document, TimeStampModel):
     }
 
 
+class StrukturJabatan(Document, TimeStampModel):
+    jabatan = StringField(max_length=20)
+    direktorat = StringField(max_length=250)
 
+    search_field = ('jabatan', 'direktorat')
 

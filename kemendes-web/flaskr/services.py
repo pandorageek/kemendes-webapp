@@ -112,7 +112,8 @@ def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj, tujua
                               penanggung_jawab=resiko['penanggung_jawab'],
                               target_waktu=resiko['target_waktu'],
                               komunikasi=resiko['komunikasi'],
-                              pemantauan=resiko['pemantauan'])
+                              pemantauan=resiko['pemantauan'],
+                              evaluasi=resiko.get('evaluasi'))
         else:
             resiko_obj = ResikoKegiatan(kegiatan=kegiatan_obj,
                                         indikator=indikator_obj,
@@ -135,7 +136,8 @@ def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj, tujua
                                         penanggung_jawab=resiko['penanggung_jawab'],
                                         target_waktu=resiko['target_waktu'],
                                         komunikasi=resiko['komunikasi'],
-                                        pemantauan=resiko['pemantauan'])
+                                        pemantauan=resiko['pemantauan'],
+                                        evaluasi=resiko.get('evaluasi'))
             resiko_obj.save()
 
         new_rk_ids.append(resiko_obj.id.__str__())
@@ -230,8 +232,14 @@ def search_tag_rencana_kerja(**kwargs):
     tags = kwargs['tags']
     keyword = kwargs['keyword']
 
-def get_list_rencana_kerja():
-    tujuan_list = Tujuan.objects.all().order_by('-updated_at')
+def get_list_rencana_kerja(user):
+    print(user.role.name, user.direktorat)
+    if user.role.name in ['admin', 'superadmin', 'Eselon I']:
+        tujuan_list = Tujuan.objects.all().order_by('-updated_at')
+    else:
+        tujuan_list = Tujuan.objects.filter(
+            unit_pemilik_resiko=user.direktorat,
+            unit_eselon=user.role.name).order_by('-updated_at')
     return tujuan_list.to_json()
 
 def create_init_user_data(app):
