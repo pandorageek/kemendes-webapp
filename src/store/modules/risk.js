@@ -25,6 +25,7 @@ const state = {
     'target_waktu',
     'komunikasi',
     'rencana_pemantauan',
+    'evaluasi',
   ],
   kemungkinan_dropdown: [
     { text: 'Sangat jarang', value: 1 },
@@ -67,7 +68,7 @@ const mutations = {
 
 const getters = {
   tujuan(state) {
-    return state.tujuan;
+    return { ...state.tujuan, evidence_list: [] }
   },
   riskFormList(state) {
     return state.riskFormList;

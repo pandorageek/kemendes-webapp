@@ -10,6 +10,12 @@
                         horizontal>
             <b-form-input type="text" v-model="unitkerja.name"></b-form-input>
           </b-form-group>
+          <b-form-group label="No Urut"
+                        :label-cols="2"
+                        size="lg"
+                        horizontal>
+            <b-form-input type="number" v-model="unitkerja.no_urut"></b-form-input>
+          </b-form-group>
           <b-form-group label="Profil"
                         :label-cols="2"
                         size="lg"

@@ -9,41 +9,43 @@
                   <p>Rencana Kerja</p>
                 </li>
               </router-link>
-              <router-link to="/admin/berita/list" class="nav-item">
-                <li class="nav-items">
-                  <p>Berita</p>
-                </li>
-              </router-link>
-              <router-link to="/admin" class="nav-item">
-                <li class="nav-items">
-                  <p>Struktur Organisasi</p>
-                </li>
-              </router-link>
-              <router-link to="/admin/unit-kerja/list" class="nav-item">
-                <li class="nav-items">
-                  <p>Unit Kerja</p>
-                </li>
-              </router-link>
-              <router-link to="/admin/download/list" class="nav-item">
-                <li class="nav-items">
-                  <p>Dokumen</p>
-                </li>
-              </router-link>
-              <router-link to="/admin/video/list" class="nav-item">
-                <li class="nav-items">
-                  <p>Vidio</p>
-                </li>
-              </router-link>
-              <router-link to="/admin/galery/list" class="nav-item">
-                <li class="nav-items">
-                  <p>Galeri</p>
-                </li>
-              </router-link>
-              <router-link to="/admin/user/list" class="nav-item">
-                <li class="nav-items">
-                  <p>User</p>
-                </li>
-              </router-link>
+              <template v-if="user.role == 'admin' || user.role == 'superadmin'">
+                <router-link to="/admin/berita/list" class="nav-item">
+                  <li class="nav-items">
+                    <p>Berita</p>
+                  </li>
+                </router-link>
+                <router-link to="/admin" class="nav-item">
+                  <li class="nav-items">
+                    <p>Struktur Organisasi</p>
+                  </li>
+                </router-link>
+                <router-link to="/admin/unit-kerja/list" class="nav-item">
+                  <li class="nav-items">
+                    <p>Unit Kerja</p>
+                  </li>
+                </router-link>
+                <router-link to="/admin/download/list" class="nav-item">
+                  <li class="nav-items">
+                    <p>Dokumen</p>
+                  </li>
+                </router-link>
+                <router-link to="/admin/video/list" class="nav-item">
+                  <li class="nav-items">
+                    <p>Vidio</p>
+                  </li>
+                </router-link>
+                <router-link to="/admin/galery/list" class="nav-item">
+                  <li class="nav-items">
+                    <p>Galeri</p>
+                  </li>
+                </router-link>
+                <router-link to="/admin/user/list" class="nav-item">
+                  <li class="nav-items">
+                    <p>User</p>
+                  </li>
+                </router-link>
+              </template>
             </ul>
           </nav>
       </div>
@@ -105,6 +107,7 @@
 </template>
 <script>
 import { base_url } from '@/store/config';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'AdminMenu',
@@ -120,6 +123,11 @@ export default {
     navActive(menu) {
       this.active = menu;
     },
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user',
+    }),
   },
 };
 </script>

@@ -12,22 +12,22 @@
         <div :class="isPrinted">
           <table border="1px" width="100%" class="small">
             <tr>
-              <td colspan="22">
+              <td colspan="23">
                 <strong>Unit pemilik resiko : {{ tujuan.unit_pemilik_resiko }}</strong>
               </td>
             </tr>
             <tr>
-              <td colspan="22">
+              <td colspan="23">
                 <strong>Unit Eselon III/IV : {{ tujuan.unit_eselon }}</strong>
               </td>
             </tr>
             <tr>
-              <td colspan="22">
+              <td colspan="23">
                 <strong>Periode : {{ tujuan.periode }}</strong>
               </td>
             </tr>
             <tr>
-              <td colspan="22">
+              <td colspan="23">
                 <strong>Kegiatan : {{ tujuan.kegiatan }}</strong>
               </td>
             </tr>
@@ -376,6 +376,7 @@ export default {
           } else {
             rk_idx = kegiatan_pointer - i
             console.log('else kgidx', kg_idx, indikator.kegiatans, 'rkidx', rk_idx)
+            console.log(indikator.kegiatans)
             table += `<tr>\
               ${this.generateColumnSr(indikator.kegiatans[kg_idx].resiko_kegiatan[rk_idx])}\
               </tr>`;
@@ -417,6 +418,7 @@ export default {
                   "target_waktu",
                   "komunikasi",
                   "pemantauan",
+                  "evaluasi"
                 ]
       let columns = ''
       for (var f = 0; f < rks.length; f++) {
