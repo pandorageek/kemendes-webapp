@@ -1,76 +1,21 @@
 <template>
   <div id="menu">
-    <b-container>
-      <div class="row desktop">
-          <nav class="navbar">
-            <ul class="ul-list-none">
-              <router-link to="/" class="nav-item">
-                <li class="nav-items">
-                  <p>Beranda</p>
-                </li>
-              </router-link>
-              <router-link to="/about" class="nav-item">
-                <li class="nav-items">
-                  <p>Tentang DitjenPKP</p>
-                </li>
-              </router-link>
-              <router-link to="/unitkerja" class="nav-item">
-                <li class="nav-items">
-                  <p>Unit Kerja</p>
-                </li>
-              </router-link>
-              <router-link to="/berita" class="nav-item">
-                <li class="nav-items">
-                  <p>Berita</p>
-                </li>
-              </router-link>
-              <router-link to="/about" class="nav-item">
-                <li class="nav-items">
-                  <p>Layanan</p>
-                </li>
-              </router-link>
-            </ul>
-          </nav>
+    <div class="container">
+      <div class="row">
+        <carousel-3d class="navbar" controlsPrevHtml="<span>‹</span>" 
+                     controlsNextHtml="<span>›</span>" 
+                     width=164 height=152 space=200 :controls-visible="true">        
+          <slide v-for="menu, i in menus" class="nav-bar-item" :index="i" :key="i" >
+            <!-- {{ i != currentIdx ? changePage(i) : true }} -->
+            <!-- <input type="hidden" :value="i" v-on:change="changePage(i)"> -->
+            <router-link :to="menu.route" class="nav-item">
+                <font-awesome-icon :icon="menu.icon" size="4x" :class="`icon-${menu.color}`"></font-awesome-icon>
+                <p>{{ menu.title }}</p>
+            </router-link>
+          </slide>
+        </carousel-3d>
       </div>
-      <div class="row mobile">
-        <b-card no-body class="mb-1 full">
-          <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-btn class="bg-tosca" block href="#" v-b-toggle.accordion1>Menu</b-btn>
-          </b-card-header>
-          <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
-            <b-card-body>
-              <ul class="list-none">
-                <router-link to="/">
-                  <li>
-                    <p>Beranda</p>
-                  </li>
-                </router-link>
-                <router-link to="/about">
-                  <li>
-                    <p>Tentang DitjenPKP</p>
-                  </li>
-                </router-link>
-                <router-link to="/unitkerja">
-                  <li>
-                    <p>Unit Kerja</p>
-                  </li>
-                </router-link>
-                <router-link to="/berita">
-                  <li>
-                    <p>Berita</p>
-                  </li>
-                </router-link>
-                <router-link to="/about">
-                  <li>
-                    <p>Layanan</p>
-                  </li>
-                </router-link>
-              </ul>
-            </b-card-body>
-          </b-collapse>
-        </b-card>
-      </div>
-    </b-container>
+    </div>
   </div>
 </template>
 <script>
@@ -78,14 +23,49 @@ import { base_url } from "@/store/config";
 // import { getListBerita } from "@/api/berita";
 // import { getListUnitKerja } from "@/api/unitkerja";
 import { mapActions, mapState } from "vuex";
+import { Carousel3d, Slide } from 'vue-carousel-3d';
 
 export default {
   name: "Menu",
+  components: { Carousel3d, Slide },
   data() {
     return {
       msg: "",
       username: "",
-      password: ""
+      password: "",
+      currentIdx: 0,
+      menus: [
+          {
+            title: "Beranda",
+            icon: "home",
+            route: "/",
+            color: "red"
+          },
+          {
+            title: "Tentang DitjenPKP",
+            icon: "info-circle",
+            route: "/about",
+            color: "green"
+          },
+          {
+            title: "Unit Kerja",
+            icon: "vector-square",
+            route: "/unitkerja",
+            color: "green"
+          },
+          {
+            title: "Berita",
+            icon: "newspaper",
+            route: "/berita",
+            color: "green"
+          },
+          {
+            title: "Layanan",
+            icon: "handshake",
+            route: "/about",
+            color: "green"
+          },
+        ]
     };
   },
   computed: mapState({
@@ -96,7 +76,10 @@ export default {
     ...mapActions({
       fetchUnitKerja: "fetchListUnitKerja", // map `this.increment()` to `this.$store.dispatch('increment')`
       fetchBerita: "fetchListBerita"
-    })
+    }),
+    changePage(idx){
+      console.log(idx);
+    }
   },
   async mounted() {
     await Promise.all([this.fetchUnitKerja(), this.fetchBerita()]);
@@ -110,6 +93,26 @@ a {
   color: inherit;
 }
 
+a:hover {
+  color: #0b5445;
+  text-decoration: none;
+}
+
+.prev, .next {
+  background-color: #9e2a3b;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.prev > span, .next > span {
+  color:#ffffff;
+  text-align: center;
+  font-size: 40px;
+}
+
+
 .bg-tosca {
   background-color: #0b5445;
 }
@@ -122,13 +125,49 @@ a {
   color: #008080;
 }
 
+.icon-red {
+  color: #9e2a3b;
+  align-self: center
+}
+
+.icon-green {
+  color: #0b5445;
+  align-self: center;
+}
+
 #menu {
   -webkit-box-shadow: 0 8px 6px -6px grey;
        -moz-box-shadow: 0 8px 6px -6px grey;
             box-shadow: 0 8px 6px -6px grey;
 }
 
+.nav-bar-item{
+  border-radius: 10%;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.nav-bar-item:hover {
+  box-shadow: 0 10px 20px rgba(33,33,33,.2); 
+}
+
 .navbar {
+  padding: 100px 0;
+}
+
+.nav-bar-item{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding-top: 15%;
+}
+
+.nav-item > p {
+  padding-top: 20%;
+}
+/* .navbar {
   padding: 0 0;
 }
 
@@ -166,11 +205,11 @@ a {
 
 .nav-items:hover::after {
     width: 100%;
-}
+} */
 
 
 
-@media only screen and (min-width: 576px) {
+/* @media only screen and (min-width: 576px) {
   .navbar {
     width: 80%;
   }
@@ -200,6 +239,6 @@ a {
     display: none;
   }
 
-}
+} */
 </style>
 
