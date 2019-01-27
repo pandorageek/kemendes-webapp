@@ -23,6 +23,7 @@
 <script>
 import { base_url } from '@/store/config';
 import { Carousel3d, Slide } from 'vue-carousel-3d';
+import router from '@/router';
 
 export default {
   name: 'AdminMenu',
