@@ -3,13 +3,12 @@
     <div class="container">
       <div class="row">
         <carousel-3d class="navbar"
-                     controlsPrevHtml='<span v-on:click="changePage(3)">‹</span>' 
+                     controlsPrevHtml='<span>‹</span>' 
                      controlsNextHtml="<span>›</span>" 
                      width=164
                      height=152
                      space=200
                      :controls-visible="true"
-                     :clickable="false"
                      @after-slide-change="onAfterSlideChange">        
           <slide v-for="menu, i in menus" class="nav-bar-item" :index="i" :key="i" >
             <router-link :to="menu.route" class="nav-item">
