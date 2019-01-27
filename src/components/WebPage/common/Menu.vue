@@ -2,12 +2,16 @@
   <div id="menu">
     <div class="container">
       <div class="row">
-        <carousel-3d class="navbar" controlsPrevHtml="<span>‹</span>" 
+        <carousel-3d class="navbar"
+                     controlsPrevHtml='<span v-on:click="changePage(3)">‹</span>' 
                      controlsNextHtml="<span>›</span>" 
-                     width=164 height=152 space=200 :controls-visible="true">        
+                     width=164
+                     height=152
+                     space=200
+                     :controls-visible="true"
+                     :clickable="false"
+                     @after-slide-change="onAfterSlideChange">        
           <slide v-for="menu, i in menus" class="nav-bar-item" :index="i" :key="i" >
-            <!-- {{ i != currentIdx ? changePage(i) : true }} -->
-            <!-- <input type="hidden" :value="i" v-on:change="changePage(i)"> -->
             <router-link :to="menu.route" class="nav-item">
                 <font-awesome-icon :icon="menu.icon" size="4x" :class="`icon-${menu.color}`"></font-awesome-icon>
                 <p>{{ menu.title }}</p>
@@ -20,6 +24,7 @@
 </template>
 <script>
 import { base_url } from "@/store/config";
+import router from '@/router';
 // import { getListBerita } from "@/api/berita";
 // import { getListUnitKerja } from "@/api/unitkerja";
 import { mapActions, mapState } from "vuex";
@@ -77,8 +82,9 @@ export default {
       fetchUnitKerja: "fetchListUnitKerja", // map `this.increment()` to `this.$store.dispatch('increment')`
       fetchBerita: "fetchListBerita"
     }),
-    changePage(idx){
-      console.log(idx);
+    onAfterSlideChange(idx){
+      console.log('afterslide', idx)
+      router.push(this.menus[idx].route)
     }
   },
   async mounted() {
