@@ -3,8 +3,6 @@
     <div class="container">
       <div class="row">
         <carousel-3d class="navbar"
-                     controlsPrevHtml='<span v-on:click="changePage(3)">‹</span>' 
-                     controlsNextHtml="<span>›</span>" 
                      width=164
                      height=152
                      space=200
@@ -82,7 +80,6 @@ export default {
       fetchBerita: "fetchListBerita"
     }),
     onAfterSlideChange(idx){
-      console.log('afterslide', idx)
       router.push(this.menus[idx].route)
     }
   },

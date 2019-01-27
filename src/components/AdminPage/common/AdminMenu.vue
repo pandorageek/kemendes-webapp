@@ -89,7 +89,6 @@ export default {
       this.active = menu;
     },
     onAfterSlideChange(idx){
-      console.log('afterslide', idx)
       router.push(this.menus[idx].route)
     }
   },
