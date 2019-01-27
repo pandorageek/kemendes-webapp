@@ -31,4 +31,9 @@ const getListRole = async function () {
   return ListRole;
 };
 
-export { getListUser, getUser, postUser, getListRole };
+const getListStrukturJabatan = async function () {
+  const { data: ListStrukturJabatan } = await api.get('/list-strukturjabatan');
+  return ListStrukturJabatan;
+};
+
+export { getListUser, getUser, postUser, getListRole, getListStrukturJabatan };

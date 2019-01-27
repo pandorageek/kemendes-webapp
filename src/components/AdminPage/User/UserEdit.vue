@@ -29,6 +29,13 @@
             <b-form-select v-model="userData.role" :options="listRole">
             </b-form-select>
           </b-form-group>
+          <b-form-group label="Direktorat"
+                        :label-cols="2"
+                        size="lg"
+                        horizontal>
+            <b-form-select v-model="userData.direktorat" :options="optDirektorat">
+          </b-form-select>
+          </b-form-group>
           <br>
           <b-form-group class="text-right">
             <b-button variant="info" v-on:click="onSave()">Save</b-button>
@@ -66,17 +73,20 @@ export default {
       formData.append('password', this.userData.password);
       formData.append('email', this.userData.email);
       formData.append('role', this.userData.role);
+      formData.append('direktorat', this.userData.direktorat);
       this.$store.dispatch('createUser', formData);
     },
   },
   created() {
     this.$store.dispatch('fetchUser', this.userId);
     this.$store.dispatch('fetchListRole');
+    this.$store.dispatch('fetchListStrukturJabatan');
   },
   computed: {
     ...mapGetters({
       userData: 'userData',
       listRole: 'listRole',
+      optDirektorat: 'optDirektorat'
     }),
   },
 };
