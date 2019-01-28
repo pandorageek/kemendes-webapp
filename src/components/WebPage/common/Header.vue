@@ -44,7 +44,7 @@
               </template>
               <div class="login-box">
                 <div class="form-group">
-                  <label class="control-label">Alamat Email</label>
+                  <label class="control-label">ID Pengguna</label>
                   <div>
                     <input type="text" class="form-control" name="email" v-model='username'>
                   </div>
@@ -250,10 +250,6 @@ export default {
   align-items: center;
   padding: 10px 0;
 }
-.btn-login {
-  width: 100%;
-  background-color: #0b5445;
-}
 
 @media only screen and (min-width: 576px) {
   .mobile {
@@ -267,3 +263,14 @@ export default {
 
 }
 </style>
+<style type="text/css" scoped>
+.btn-login {
+  width: 100%;
+  background-color: #0b5445;
+}
+#loginButton {
+  color: #ffffff;
+  text-decoration: none;
+}
+</style>
+

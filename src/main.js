@@ -41,6 +41,7 @@ import VueHtml2Canvas from 'vue-html2canvas';
 
 Vue.use(BootstrapVue);
 // Vue.use(VueHtml2Canvas);
+Vue.use(Carousel3d);
 
 library.add(faCoffee,
   faDesktop,
