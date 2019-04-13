@@ -22,14 +22,10 @@
 <script>
 import { base_url } from "@/store/config";
 import router from '@/router';
-// import { getListBerita } from "@/api/berita";
-// import { getListUnitKerja } from "@/api/unitkerja";
 import { mapActions, mapState } from "vuex";
-import { Carousel3d, Slide } from 'vue-carousel-3d';
 
 export default {
   name: "Menu",
-  components: { Carousel3d, Slide },
   data() {
     return {
       msg: "",
@@ -90,7 +86,7 @@ export default {
   }
 };
 </script>
-<style>
+<style type="text/css" scoped>
 a {
   color: inherit;
 }

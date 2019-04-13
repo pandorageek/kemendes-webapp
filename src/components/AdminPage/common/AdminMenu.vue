@@ -22,13 +22,11 @@
 </template>
 <script>
 import { base_url } from '@/store/config';
-import { Carousel3d, Slide } from 'vue-carousel-3d';
 import router from '@/router';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'AdminMenu',
-  components: { Carousel3d, Slide },
   data() {
     return {
       active: '',
@@ -101,7 +99,7 @@ export default {
   },
 };
 </script>
-<style type="text/css">
+<style type="text/css" scoped>
 a {
   color: inherit;
 }
