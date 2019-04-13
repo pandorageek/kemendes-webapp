@@ -34,7 +34,7 @@
                         size="lg"
                         horizontal>
             <b-form-select v-model="userData.direktorat" :options="optDirektorat">
-          </b-form-select>
+            </b-form-select>
           </b-form-group>
           <br>
           <b-form-group class="text-right">

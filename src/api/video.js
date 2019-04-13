@@ -11,9 +11,7 @@ const getVideo = async function (video_id) {
 };
 
 const postVideo = async function (formData) {
-  alert(formData);
   const { data: video } = await api.post('post-video', formData);
-  alert(video);
   return video;
 };
 

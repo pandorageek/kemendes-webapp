@@ -55,7 +55,7 @@ export default {
       const formData = new FormData();
       formData.append('title', this.video.title);
       formData.append('description', this.video.description);
-      formData.append('video_url', this.video.video_url);
+      formData.append('url', this.video.url);
       formData.append('is_shown', this.video.is_shown);
       this.$store.dispatch('uploadVideo', formData);
     },

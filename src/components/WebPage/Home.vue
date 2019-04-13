@@ -68,16 +68,18 @@
         </div>
       <div class="row">
         <carousel-3d :controls-visible="true">
-          <slide :index="0">
+          <slide v-for="(vid, idx) in videos" 
+                 :index="idx">
+            {{idx}}
             <iframe
-              src="https://www.youtube.com/embed/kzzMvetlB-Y"
+              :src="vid.url"
               class="video-slide"
               frameborder="0"
               allowfullscreen
             ></iframe>
-            <p>video-1</p>
+            <p>{{vid.name}}</p>
           </slide>
-          <slide :index="1">
+         <!--  <slide :index="1">
             <iframe
               src="https://www.youtube.com/embed/9EP_IqZ6SoQ"
               class="video-slide"
@@ -112,7 +114,7 @@
               allowfullscreen
             ></iframe>
             <p>video-1</p>
-          </slide>
+          </slide> -->
         </carousel-3d>
       </div>
     </div>
@@ -137,7 +139,8 @@ export default {
   },
   computed: {
     ...mapState({
-      berita: state => state.berita.listBerita
+      berita: state => state.berita.listBerita,
+      videos: state=> state.video.listVideo
     }),
     headline() {
       return this.berita.slice(0, 3);
@@ -145,7 +148,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchBerita: "fetchListBerita"
+      fetchBerita: "fetchListBerita",
+      fetchListVideo: "fetchListVideo"
     }),
     truncateContent(content) {
       return content.slice(0, content.indexOf(".")) + "...";
@@ -153,6 +157,7 @@ export default {
   },
   async mounted() {
     await this.fetchBerita();
+    await this.fetchListVideo();
   }
 };
 </script>

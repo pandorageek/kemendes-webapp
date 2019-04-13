@@ -189,7 +189,7 @@
                                  :max-rows="6">
                 </b-form-textarea>
               </b-form-group>
-              <b-form-group label="evidence"
+              <!-- <b-form-group label="evidence"
                               :label-cols="3"
                               size="lg"
                               horizontal>
@@ -201,7 +201,7 @@
                 <div class="mt-3">
                   Selected File: {{ resiko.evidence }}
                 </div>
-              </b-form-group>
+              </b-form-group> -->
             </b-form>
           </b-card>
         </b-form>
@@ -250,15 +250,15 @@ export default {
   created(){
     let indikators = this.indikators
     var self = this
-    self.tujuan['evidence_list'] = []
+    // self.tujuan['evidence_list'] = []
     indikators.map(function(indikator, idk) {
-      self.tujuan.evidence_list.push([])
+      // self.tujuan.evidence_list.push([])
       let kegiatans = indikator.kegiatans
       kegiatans.map(function(kegiatan, kgidx) {
-        self.tujuan.evidence_list[idk].push([])
+        // self.tujuan.evidence_list[idk].push([])
         let resiko_kegiatan = kegiatan.resiko_kegiatan
         resiko_kegiatan.map(function(rk, rkidx) {
-          self.tujuan.evidence_list[idk][kgidx].push({file: null})
+          // self.tujuan.evidence_list[idk][kgidx].push({file: null})
           if (rk.pengukuran_kemungkinan !== '' && rk.pengukuran_kemungkinan !== undefined) {
             for (let key in self.pengukuran_kemungkinan_map) {
               if (self.pengukuran_kemungkinan_map[key] === rk.pengukuran_kemungkinan) {
@@ -306,11 +306,11 @@ export default {
         evaluasi: '',
       };
       this.indikators[idx].kegiatans[kgidx].resiko_kegiatan.push(data_resiko);
-      this.tujuan.evidence_list[idx][kgidx].push({file: null})
+      // this.tujuan.evidence_list[idx][kgidx].push({file: null})
     },
     remove(idx, kgidx, r_idx) {
       this.indikators[idx].kegiatans[kgidx].resiko_kegiatan.splice(r_idx, 1);
-      this.tujuan.evidence_list.splice(r_idx, 1)
+      // this.tujuan.evidence_list.splice(r_idx, 1)
     },
     calculateST(resiko) {
       if (resiko.pengukuran_kemungkinan_key == '' && resiko.pengukuran_dampak_key == '') {

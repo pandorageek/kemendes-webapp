@@ -8,7 +8,7 @@
                      space=200
                      :controls-visible="true"
                      @after-slide-change="onAfterSlideChange">        
-          <slide v-for="menu, i in menus" class="nav-bar-item" :index="i" :key="i" >
+          <slide v-for="menu, i in menus" class="nav-bar-item slide" :index="i" :key="i" >
             <router-link :to="menu.route" class="nav-item">
                 <font-awesome-icon :icon="menu.icon" size="4x" :class="`icon-${menu.color}`"></font-awesome-icon>
                 <p>{{ menu.title }}</p>
@@ -144,10 +144,11 @@ a:hover {
 }
 
 .nav-bar-item{
-  border-radius: 10%;
-  background-color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 10% !important;
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+  z-index: -1;
 }
 
 .nav-bar-item:hover {
@@ -162,12 +163,30 @@ a:hover {
   height: 100%;
   display: flex;
   justify-content: center;
-  text-align: center;
+  text-align: center !important;
   padding-top: 15%;
 }
 
 .nav-item > p {
   padding-top: 20%;
+}
+
+.carousel-3d-slide {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    top: 0;
+    border-radius: 20px;
+    /* border-color: #000; */
+    /* border-color: rgba(0,0,0,.4); */
+    /* border-style: solid; */
+    background-size: cover;
+    background-color: white; 
+    display: block;
+    margin: 0;
+    box-sizing: border-box;
+    /* text-align: left; */
 }
 </style>
 

@@ -169,7 +169,7 @@ export default {
       let validation_step3 = this.validate(this.step)
       console.log('validation save', validation_step3)
       if (validation_step3.is_valid){
-        console.log(JSON.stringify(this.tujuan));
+        console.log('debug', JSON.stringify(this.tujuan));
         const header = new Headers({
           Accept: 'application/json',
           'Access-Control-Allow-Origin': '*',
@@ -188,7 +188,7 @@ export default {
             }
           }).then((res) => {
             console.log(res);
-            router.push(`/admin/tujuan/${res.tujuan_id}`);
+            router.push(`/admin/rencana-kerja/detail/${res.tujuan_id}`);
           }).catch((err) => {
             console.log('err', err);
           });
