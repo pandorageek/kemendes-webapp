@@ -127,6 +127,9 @@ def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj,
                               pemantauan=resiko['pemantauan'],
                               evaluasi=resiko.get('evaluasi'))
         else:
+            status_resiko = ''
+            if resiko['pengukuran_status_resiko']:
+                status_resiko = str(resiko['pengukuran_status_resiko'])
             resiko_obj = ResikoKegiatan(kegiatan=kegiatan_obj,
                                         indikator=indikator_obj,
                                         tujuan=tujuan,
@@ -141,7 +144,7 @@ def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj,
                                         pemilik_resiko=resiko['pemilik_resiko'],
                                         pengukuran_kemungkinan=resiko['pengukuran_kemungkinan'],
                                         pengukuran_dampak=resiko['pengukuran_dampak'],
-                                        pengukuran_status_resiko=resiko['pengukuran_status_resiko'],
+                                        pengukuran_status_resiko=status_resiko,
                                         level_resiko=resiko['level_resiko'],
                                         peringkat_resiko=resiko['peringkat_resiko'],
                                         rtp=resiko['rtp'],
@@ -153,16 +156,16 @@ def update_resiko_kegiatans(resiko_kegiatans, kegiatan_obj, indikator_obj,
             resiko_obj.save()
 
         # update evidence
-        evidence_url = None
-        file_identifier = 'file{}{}{}'.format(idk, kgx, idx)
-        evidence_file = files.get(file_identifier)
-        if evidence_file is not None:
-            if resiko_obj.evidence != '' and resiko.evidence is not None:
-                delete_evidence(resiko_kegiatan.evidence)
-            evidence_url = upload_evidence(evidence_file)
-            resiko_obj.update(evidence=evidence_url)
+        # evidence_url = None
+        # file_identifier = 'file{}{}{}'.format(idk, kgx, idx)
+        # evidence_file = files.get(file_identifier)
+        # if evidence_file is not None:
+        #     if resiko_obj.evidence != '' and resiko.evidence is not None:
+        #         delete_evidence(resiko_kegiatan.evidence)
+        #     evidence_url = upload_evidence(evidence_file)
+        #     resiko_obj.update(evidence=evidence_url)
 
-        new_rk_ids.append(resiko_obj.id.__str__())
+        # new_rk_ids.append(resiko_obj.id.__str__())
 
     # delete resiko kegiatans
     deleted_rk_ids = set(old_rk_ids) - set(new_rk_ids)
@@ -198,7 +201,7 @@ def update_kegiatans(kegiatans, indikator_obj, tujuan, idk, files):
 
 def update_rencana_kerja(data, files):
     data = json.loads(data)
-    print('urk files', files)
+    print('urk files', data.get("name"))
     if data.get('id') != '' and data.get('id') is not None:
         tujuan = Tujuan.objects.get(id=data.get('id'))
         tujuan.update(name=data.get('name'),
@@ -238,8 +241,6 @@ def update_rencana_kerja(data, files):
     deleted_idk_ids = set(old_idk_ids) - set(new_idk_ids)
     deleted_indikators = Indikator.objects.filter(id__in=list(deleted_idk_ids))
     deleted_indikators.delete()
-    print('update_evidence')
-    # update_rtp_evidence(tujuan, files)
     return tujuan.id.__str__()
 
 def delete_rencana_kerja(tujuan_id):

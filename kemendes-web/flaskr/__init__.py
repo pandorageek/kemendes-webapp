@@ -212,13 +212,11 @@ def create_app(test_config=None):
             return json.dumps(rencana_kerja.get(tujuan_id))
 
         if request.method == 'POST':
-            # data = request.data.decode('utf8').replace("'", '"')
-            # print(request.json['name'])
-            data = request.form
-            files = request.files
-            print('rkdata', request.form)
-            print('rkimage', request.files)
-            result = rencana_kerja.post(data, files)
+            data = request.data.decode('utf8').replace("'", '"')
+            print('data', data)
+            # data = request.form
+            # printrequest
+            result = rencana_kerja.post(data)
             print(result)
             return result
 
@@ -314,7 +312,11 @@ def create_app(test_config=None):
     @jwt_required
     def post_download():
         download_view = DownloadListView(app)
-        return download_view.post(request.form)
+        print(request.files['file'])
+        file = None
+        if 'file' in request.files:
+            file = request.files['file']
+        return download_view.post(request.form, file)
 
     @app.route('/delete-download/<download_id>', methods=['PUT'])
     def delete_download(download_id):

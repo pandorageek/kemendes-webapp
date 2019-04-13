@@ -237,11 +237,10 @@ class RiskFormView(object):
             return e.__str__(), StatusCodes.HTTP_500_INTERNAL_SERVER_ERROR
         return result
 
-    def post(self, data, files):
-        # data = json.loads(data)
+    def post(self, data):
+        print('controller tujuan', data)
         try:
-            print('controller tujuan', data)
-            tujuan_id = update_rencana_kerja(data.get('tujuan'), files)
+            tujuan_id = update_rencana_kerja(data, None)
         except Exception as e:
             print('error', e)
             return {'status': 'failed'}, StatusCodes.HTTP_400_BAD_REQUEST
@@ -486,7 +485,7 @@ class DownloadListView(object):
                 if not file:
                     return 'Image Could Not be blank', StatusCodes.HTTP_400_BAD_REQUEST
                 doc_url = upload_file(file)
-                download_obj = Image(name=data.get('name'),
+                download_obj = Download(name=data.get('name'),
                                      description=data.get('description'),
                                      doc_url=doc_url)
                 download_obj.save()
