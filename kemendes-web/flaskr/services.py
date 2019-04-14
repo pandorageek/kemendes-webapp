@@ -191,6 +191,7 @@ def update_kegiatans(kegiatans, indikator_obj, tujuan, idk, files):
 
         new_kg_ids.append(kegiatan_obj.id.__str__())
         resiko_kegiatan = kegiatan.get('resiko_kegiatan')
+        print('resiko_kegiatan', resiko_kegiatan)
         update_resiko_kegiatans(resiko_kegiatan, kegiatan_obj,
             indikator_obj, tujuan, idk, kgx, files)
 
